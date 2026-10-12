@@ -171,7 +171,7 @@ export function Hero({ ready }: { ready: boolean }) {
       const ir = img.getBoundingClientRect();
       if (wr.width === 0 || wr.height === 0 || ir.width === 0) return;
       const faceX = ir.left + 0.5 * ir.width;
-      const faceY = ir.top + 0.31 * ir.height;
+      const faceY = ir.top + 0.3 * ir.height;
       const s = wrap.style;
       s.setProperty("--mx", `${(((faceX - wr.left) / wr.width) * 100).toFixed(2)}%`);
       s.setProperty("--my", `${(((faceY - wr.top) / wr.height) * 100).toFixed(2)}%`);
