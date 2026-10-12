@@ -47,7 +47,7 @@ export function GeospatialVisual() {
           <rect x="630" y={128 + i * 84} width={120 * (wgt as number)} height="5" fill={color as string} />
         </g>
       ))}
-      <text x="40" y="480" fill="#8e8b82" fontSize="11" fontFamily="monospace" letterSpacing="2">ILLUSTRATIVE MOCKUP — REPLACE WITH REAL SCREENSHOTS</text>
+      {/* caption lives in the case-study modal's status note instead */}
     </svg>
   );
 }
@@ -121,7 +121,7 @@ export function SecurityVisual() {
       <rect x="460" y="40" width="300" height="54" fill="#141311" stroke="#f4f1ea" strokeOpacity="0.15" />
       <text x="480" y="62" fill="#8e8b82" fontSize="10" fontFamily="monospace" letterSpacing="2">OPEN ALERTS</text>
       <text x="480" y="86" fill="#ff4d00" fontSize="16" fontFamily="monospace">7 high severity</text>
-      <text x="40" y="480" fill="#8e8b82" fontSize="11" fontFamily="monospace" letterSpacing="2">ILLUSTRATIVE — DETAILS PENDING</text>
+      {/* caption lives in the case-study modal's status note instead */}
     </svg>
   );
 }

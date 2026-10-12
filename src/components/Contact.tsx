@@ -79,8 +79,8 @@ export function Contact() {
 
         <Reveal delay={0.25}>
           <p className="mt-10 font-serif text-lg italic text-paper/45">
-            Prefer GitHub for now — email and LinkedIn links land here as soon
-            as they're added in the content file.
+            Email and LinkedIn are on the way — GitHub is the fastest way to
+            reach me for now.
           </p>
         </Reveal>
       </div>

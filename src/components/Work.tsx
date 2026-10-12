@@ -179,7 +179,7 @@ function Feature({
       {/* mono micro-labels */}
       <Reveal>
         <div className="flex flex-wrap items-center gap-x-8 gap-y-2 font-mono text-xs uppercase tracking-[0.25em] text-paper/50">
-          <span className="text-accent">№ {project.index}</span>
+          <span className="text-accent">No. {project.index}</span>
           <span>{project.category}</span>
           <span>Selected work</span>
         </div>
@@ -257,7 +257,7 @@ function IndexRow({ project, onOpen }: { project: Project; onOpen: (p: Project) 
         className="group flex w-full items-baseline justify-between gap-6 border-t border-paper/15 py-8 text-left"
       >
         <span className="flex items-baseline gap-6">
-          <span className="font-mono text-sm text-accent">№ {project.index}</span>
+          <span className="font-mono text-sm text-accent">No. {project.index}</span>
           <span>
             <span className="block font-display text-2xl font-bold uppercase tracking-tight transition-colors group-hover:text-accent md:text-4xl">
               {project.title}
