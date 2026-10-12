@@ -160,6 +160,23 @@ export function Hero({ ready }: { ready: boolean }) {
     >
       <SignalField />
 
+      {/* portrait — the face the wordmark lives around (reference treatment) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-1/2 z-[5] h-[82%] -translate-x-1/2 -translate-y-1/2 aspect-[2/3] [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]"
+      >
+        <img
+          src="/portrait.webp"
+          alt=""
+          fetchPriority="high"
+          className="h-full w-full object-cover object-top opacity-90"
+          width={1024}
+          height={1536}
+        />
+        {/* soft ink veil keeps the solid wordmark readable over bright areas */}
+        <div className="absolute inset-0 bg-ink/35" />
+      </div>
+
       {/* faint baseline grid */}
       <div
         aria-hidden="true"
@@ -196,13 +213,13 @@ export function Hero({ ready }: { ready: boolean }) {
           </span>
           <span className="block overflow-hidden">
             <motion.span
-              className="block text-paper/25"
+              className="block text-transparent [-webkit-text-stroke:2px_#f4f1ea]"
               initial={reduce ? { opacity: 0 } : { opacity: 0, y: "108%" }}
               animate={ready ? { opacity: 1, y: 0 } : {}}
               transition={{ duration: 1, ease: EASE, delay: 0.36 }}
             >
               {profile.lastName}
-              <span className="text-accent">.</span>
+              <span className="text-accent [-webkit-text-stroke:0px]">.</span>
             </motion.span>
           </span>
         </h1>
