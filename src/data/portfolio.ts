@@ -26,10 +26,11 @@ export const profile = {
   degree: "B.Tech, Computer Science and Engineering",
   university: "Pimpri Chinchwad University",
   cgpa: "9.27",
-  location: "Pune, India",
+  location: "Surat, Gujarat",
+  phone: "+91 93135 92099",
   tagline: "Engineering ideas into reality.",
   intro:
-    "I build intelligent systems, thoughtful digital experiences, and technology that solves real problems.",
+    "B.Tech Computer Science Engineering student at Pimpri Chinchwad University with hands-on experience in Python development and campus outreach, and project work spanning AI-driven infrastructure intelligence, cyber threat analysis, and healthcare applications.",
   about: [
     "I'm a Computer Science undergraduate at Pimpri Chinchwad University (CGPA 9.27) who treats engineering as a creative discipline. I work across AI, cybersecurity, and full-stack development — not as separate silos, but as tools that combine when a real problem demands it.",
     "My approach is simple: understand the problem deeply, prototype fast, and keep iterating until the thing actually works for real people. I learn by building — every concept I study turns into something running on a screen or a server.",
@@ -42,15 +43,13 @@ export const profile = {
     "Creative Technology",
     "Real-World Problem Solving",
   ],
-  // TODO: add your real email address
-  email: { address: "", status: "todo" as LinkStatus },
+  email: { address: "shivamaghera51@gmail.com", status: "live" as LinkStatus },
   resumePath: "/resume.pdf",
 };
 
 export const socials: SocialLink[] = [
   { label: "GitHub", href: "https://github.com/shvm51", status: "live" },
-  // TODO: add your real LinkedIn profile URL
-  { label: "LinkedIn", href: "", status: "todo", note: "Add your LinkedIn URL in src/data/portfolio.ts" },
+  { label: "LinkedIn", href: "https://www.linkedin.com/in/shivamaghera", status: "live" },
 ];
 
 export const navLabels = [
@@ -115,41 +114,42 @@ export const projects: Project[] = [
     id: "bharat-infrapulse",
     index: "02",
     title: "Bharat InfraPulse",
-    category: "AI · Geospatial · Concept",
-    tagline: "AI-powered infrastructure monitoring and decision support.",
+    category: "AI · Geospatial · In Progress",
+    tagline: "AI-powered citizen demand & infrastructure investment intelligence.",
     problem:
-      "Civic infrastructure issues — broken roads, failing utilities — are reported in scattered channels, so prioritization is slow and opaque.",
+      "Infrastructure demand from citizens arrives as scattered, multilingual reports — demand and supply stay misaligned, and investment decisions lack explainable grounding.",
     solution:
-      "A concept platform connecting citizen reports, multimodal analysis, geospatial gap mapping, forecasting, and explainable prioritization for decision-makers.",
-    role: "Concept & design — system architecture, data flow, dashboard mockups.",
+      "An AI platform that structures multilingual citizen text, voice, and photo reports, then layers demand clustering, demand–supply gap analysis, forecasting, explainable priority scoring, and budget-scenario planning.",
+    role: "Contributed to the proposed AI workflow — structuring multilingual reports, demand clustering, gap analysis, forecasting, explainable priority scoring, budget-scenario planning.",
     stack: ["Concept", "Geospatial visualization", "Multimodal AI (planned)"],
     approach: [
-      "Citizen report ingestion pipeline (text + image)",
-      "Geospatial clustering of infrastructure gaps on a live map",
-      "Explainable prioritization model surfacing why an issue ranks high",
-      "Forecasting layer for preventive maintenance planning",
+      "Multilingual citizen report ingestion (text, voice, photo)",
+      "Demand clustering and demand–supply gap analysis",
+      "Explainable priority scoring for investment decisions",
+      "Forecasting and budget-scenario planning layer",
     ],
     outcomes: [],
     links: [],
     visual: "geospatial",
     featured: true,
-    statusNote: "Concept in development — architecture and mockups being refined.",
+    statusNote: "In progress — AI workflow and architecture being refined.",
   },
   {
-    id: "health-ai",
+    id: "aarogya-ai",
     index: "03",
-    title: "Early Disease Prediction",
-    category: "AI · Healthcare · Concept",
-    tagline: "Machine learning for early risk signals in healthcare data.",
+    title: "AarogyaAI",
+    category: "AI · Healthcare",
+    tagline: "Multi-disease risk prediction with an interpretable patient journey.",
     problem:
-      "Many conditions are most treatable when caught early, but risk signals hide across fragmented health records and checkups.",
+      "Early risk signals for common conditions hide across fragmented checkups, and patients lack clear guidance from first concern to specialist care.",
     solution:
-      "A proposed AI system that surfaces early risk signals from structured health data, with a clinician-facing dashboard — positioned as decision support, not diagnosis.",
-    role: "Concept & design — problem framing, technical architecture, dashboard mockups.",
+      "A multi-disease risk prediction workflow covering diabetes, heart disease, hypertension, liver, and kidney disease — ensemble models, interpretable risk factors, and a patient journey from chatbot guidance to specialist recommendations, appointments, and reports.",
+    role: "Contributed to the design of the multi-disease risk prediction workflow — ensemble models, interpretable risk factors, and the end-to-end patient journey.",
     stack: ["Concept", "Machine Learning (planned)", "Data visualization"],
     approach: [
-      "Risk-signal modeling over structured health indicators",
-      "Clinician dashboard with explainable risk factors",
+      "Ensemble models over multi-disease risk indicators",
+      "Interpretable risk factors surfaced to patients and clinicians",
+      "Chatbot-guided journey: concern → recommendation → appointment → report",
       "Privacy-first data handling as a core design constraint",
     ],
     outcomes: [],
@@ -157,26 +157,31 @@ export const projects: Project[] = [
     visual: "medical",
     featured: true,
     statusNote:
-      "Exploratory concept. No clinical claims — accuracy and deployment are unverified.",
+      "Design-stage concept. No clinical claims — accuracy and deployment are unverified.",
   },
   {
-    id: "cyber-threat-intel",
+    id: "cyber-cep",
     index: "04",
-    title: "Cyber Threat Intelligence",
-    category: "Cybersecurity",
-    tagline: "Threat detection, analysis workflow, and security tooling.",
+    title: "CyberCEP",
+    category: "Cybersecurity · Real-Time",
+    tagline: "Real-time cyber threat intelligence platform.",
     problem:
-      "Details to be added — this project slot is reserved for a cybersecurity build.",
+      "Attack signals — brute force, SYN floods, port scans, APT activity — arrive as raw event streams; analysts need real-time detection with explainable alerts.",
     solution:
-      "Threat-detection problem, analysis workflow, and technical implementation will be documented here once available.",
-    role: "To be documented.",
-    stack: [],
-    approach: [],
+      "A Python event-processing pipeline on a Kafka-style publish–subscribe bus with sliding windows: rule-based detection for brute force, SYN floods, port scans, APT kill chains, and credential stuffing, plus Isolation Forest anomaly detection and alert visualization.",
+    role: "Built the Python event-processing pipeline — Kafka-style pub-sub, sliding windows, rule-based detection, Isolation Forest anomaly detection, alert visualization.",
+    stack: ["Python", "Kafka-style pub-sub", "Isolation Forest", "Stream processing"],
+    approach: [
+      "Event pipeline with sliding-window stream processing",
+      "Rule-based detection: brute force, SYN floods, port scans, APT kill chains, credential stuffing",
+      "Isolation Forest anomaly detection over event features",
+      "Alert visualization for analyst triage",
+    ],
     outcomes: [],
     links: [],
     visual: "security",
     featured: false,
-    statusNote: "Project details pending — update src/data/portfolio.ts when ready.",
+    statusNote: "2026 — implementation details being documented.",
   },
 ];
 
@@ -189,25 +194,29 @@ export interface SkillCategory {
 export const skillCategories: SkillCategory[] = [
   {
     name: "Programming Languages",
-    items: ["TypeScript", "Python", "JavaScript", "SQL"],
+    items: ["Python", "Java", "C++", "JavaScript", "HTML", "CSS", "Embedded C"],
+  },
+  {
+    name: "Frameworks & Backend",
+    items: ["Django", "FastAPI", "REST APIs", "Node.js"],
   },
   {
     name: "Frontend Development",
     items: ["React", "Next.js", "React Native (Expo)", "Tailwind CSS", "Framer Motion"],
   },
   {
-    name: "Backend Development",
-    items: ["FastAPI", "REST APIs", "Node.js"],
-  },
-  {
     name: "AI & Machine Learning",
-    items: ["ML pipelines", "Model preprocessing", "Prompt engineering", "RAG concepts"],
+    items: ["AI/ML concepts", "LLM integrations", "ML pipelines", "Model preprocessing"],
     note: "Applied & learning — no proficiency claims",
   },
   {
     name: "Cybersecurity",
-    items: ["Security fundamentals", "Threat analysis (learning)"],
+    items: ["Cybersecurity fundamentals", "Threat analysis (learning)"],
     note: "Active interest area — growing",
+  },
+  {
+    name: "Embedded & Hardware",
+    items: ["Arduino", "Embedded C"],
   },
   {
     name: "Databases",
@@ -218,8 +227,16 @@ export const skillCategories: SkillCategory[] = [
     items: ["Git & GitHub", "Docker", "Vercel", "Railway", "Render", "Linux"],
   },
   {
+    name: "Methodologies",
+    items: ["Agile fundamentals", "Data Structures & Algorithms"],
+  },
+  {
     name: "Design & Creative Technology",
     items: ["UI/UX design", "Design systems", "Motion design", "Figma"],
+  },
+  {
+    name: "Soft Skills",
+    items: ["Teamwork & Collaboration", "Leadership", "Communication", "Problem Solving", "Time Management", "Adaptability"],
   },
 ];
 
@@ -233,9 +250,30 @@ export interface Experience {
 
 export const experiences: Experience[] = [
   {
+    role: "Python Developer Intern",
+    org: "QSkill",
+    period: "July — August 2026",
+    description:
+      "One-month internship focused on Python development and practical programming tasks.",
+    highlights: [
+      "Shipped practical Python programming tasks in a professional workflow",
+    ],
+  },
+  {
+    role: "Campus Ambassador",
+    org: "AllCollegeEvent.com (ACE)",
+    period: "August 2026 — Present",
+    description:
+      "Supporting campus outreach — connecting students with college events and activities.",
+    highlights: [
+      "Share event opportunities across campus channels",
+      "Connect students with college-related events and activities",
+    ],
+  },
+  {
     role: "Design Head",
     org: "PCU Developers Club",
-    period: "2024 — Present",
+    period: "2026 — Present",
     description:
       "Leading the visual and experience direction for the club's technical presence.",
     highlights: [
@@ -246,7 +284,7 @@ export const experiences: Experience[] = [
   {
     role: "Technical Head",
     org: "PCU Cultural Club",
-    period: "2024 — Present",
+    period: "2026 — Present",
     description:
       "Owning the club's digital platform — public site, registrations, and operations tooling.",
     highlights: [
@@ -255,15 +293,31 @@ export const experiences: Experience[] = [
     ],
   },
   {
+    role: "Coordinator",
+    org: "TEDx PCU",
+    period: "2026",
+    description:
+      "Coordinating operations for the university's TEDx event.",
+    highlights: ["Cross-team coordination under event deadlines"],
+  },
+  {
     role: "Event Lead",
     org: "PCU Pitch Fest 2.0",
-    period: "2025",
+    period: "2026",
     description:
       "Leading planning and execution for the university's flagship pitch event.",
     highlights: [
       "Drive end-to-end event planning: format, judging, logistics",
       "Coordinate teams under real deadlines",
     ],
+  },
+  {
+    role: "Management Team",
+    org: "Ideathon 2k26 (24-Hour Event)",
+    period: "2026",
+    description:
+      "Management role for a 24-hour ideathon event.",
+    highlights: ["Event operations and participant experience"],
   },
 ];
 
@@ -284,12 +338,25 @@ export const achievements: Achievement[] = [
     detail: "Building AgriSaarthi — AI farming companion (in progress)",
     year: "2026",
   },
-  // TODO: add hackathons, certifications, awards as they are verified
+  {
+    title: "Agile Project Management — Google",
+    detail: "Certification",
+    year: "2026",
+  },
+  {
+    title: "Foundations of Cybersecurity — Google",
+    detail: "Certification",
+    year: "2026",
+  },
+  {
+    title: "Django Web Framework — Meta",
+    detail: "Certification",
+    year: "2026",
+  },
 ];
 
 export const contact = {
   headline: "Got an idea worth building?",
   subline:
     "I'm always up for interesting problems — internships, collaborations, or just a good technical conversation.",
-  // Email + LinkedIn intentionally left blank — fill in src/data/portfolio.ts
 };
