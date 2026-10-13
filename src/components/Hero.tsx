@@ -158,18 +158,7 @@ export function Hero({ ready }: { ready: boolean }) {
     >
       <SignalField />
 
-      {/* faint baseline grid */}
-      <div
-        aria-hidden="true"
-        className="pointer-events-none absolute inset-0 opacity-[0.06]"
-        style={{
-          backgroundImage:
-            "linear-gradient(to right, #f4f1ea 1px, transparent 1px)",
-          backgroundSize: "clamp(24px, 8vw, 96px) 100%",
-        }}
-      />
-
-      <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-center px-6 pb-24 pt-28 md:px-12">
+      <div className="@container relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-center px-6 pb-24 pt-28 md:px-12">
         {/* kicker row — descriptor left, folio label right */}
         <motion.div
           initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
@@ -188,7 +177,7 @@ export function Hero({ ready }: { ready: boolean }) {
         {/* full-width typographic wordmark — one unified composition.
             SHIVAM solid warm ivory; AGHERA as a complete outlined unit
             closed by a circular orange dot. */}
-        <h1 className="mt-8 select-none whitespace-nowrap font-condensed uppercase leading-[0.84] tracking-[0.01em] text-[clamp(3.5rem,22vw,22rem)] md:mt-10">
+        <h1 className="mt-8 select-none whitespace-nowrap font-condensed uppercase leading-[0.84] tracking-[0.01em] text-[clamp(3rem,27cqw,30rem)] md:mt-10">
           <span className="block overflow-hidden pb-[0.03em]">
             <motion.span
               className="block text-paper"
