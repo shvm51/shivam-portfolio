@@ -29,7 +29,13 @@ export function Reveal({
   );
 }
 
-/** Staggered per-line entrance for display typography. Pass pre-split lines. */
+/** Staggered per-line entrance for display typography. Pass pre-split lines.
+ *
+ * The IntersectionObserver watches the STATIC clip wrapper (never the
+ * translated inner line): IO measures the transformed box, so observing the
+ * moving element directly never fires and headings stay invisible.
+ * The inner line inherits the animation state via variant propagation.
+ */
 export function LineReveal({
   lines,
   className,
@@ -43,19 +49,29 @@ export function LineReveal({
 }) {
   const reduce = useReducedMotion();
   return (
-    <Tag className={className} aria-label={undefined}>
+    <Tag className={className}>
       {lines.map((line, i) => (
-        <span key={i} className="block overflow-hidden">
+        <motion.span
+          key={i}
+          className="block overflow-hidden"
+          initial="hidden"
+          whileInView="show"
+          viewport={{ once: true, margin: "-10% 0px" }}
+        >
           <motion.span
             className={`block ${lineClassName ?? ""}`}
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: "110%" }}
-            whileInView={{ opacity: 1, y: "0%" }}
-            viewport={{ once: true, margin: "-10% 0px" }}
-            transition={{ duration: 0.9, delay: i * 0.09, ease: EASE }}
+            variants={{
+              hidden: reduce ? { opacity: 0 } : { opacity: 0, y: "110%" },
+              show: {
+                opacity: 1,
+                y: "0%",
+                transition: { duration: 0.9, delay: i * 0.09, ease: EASE },
+              },
+            }}
           >
             {line}
           </motion.span>
-        </span>
+        </motion.span>
       ))}
     </Tag>
   );
