@@ -22,7 +22,7 @@ export function Skills() {
             <Reveal key={cat.name} delay={(ci % 3) * 0.08}>
               <div className="border-t-2 border-ink pt-6">
                 <h3 className="font-mono text-xs uppercase tracking-[0.3em] text-ink/60">
-                  <span className="text-accent">0{ci + 1}</span> · {cat.name}
+                  <span className="text-accent">{String(ci + 1).padStart(2, "0")}</span> · {cat.name}
                 </h3>
                 <p className="mt-5 font-display text-2xl font-medium leading-snug">
                   {cat.items.join("  ·  ")}
