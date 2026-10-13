@@ -10,6 +10,7 @@
 
 ## Typography — body + display
 - Display: "Space Grotesk" — oversized, tight tracking, uppercase for section titles; lowercase editorial for hero name
+- Hero wordmark: "Anton" condensed (hero only) — massive two-line SHIVAM / AGHERA. composition with face-aware mask; solid warm-white, outline layer over the face region
 - Serif editorial accent: "Fraunces" italic for quotes, section kickers, pull-lines
 - Body/mono: "Inter" body; "JetBrains Mono" for labels, indexes, technical annotations
 - Scale: hero name clamp(4rem, 14vw, 13rem); section titles clamp(2.5rem, 7vw, 6rem); body 1.0625rem/1.7

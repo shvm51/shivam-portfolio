@@ -1,6 +1,6 @@
 import { motion, useReducedMotion } from "framer-motion";
 import { ArrowDown, ArrowUpRight, FileText } from "lucide-react";
-import { useEffect, useRef } from "react";
+import { useEffect, useRef, useState } from "react";
 import { profile, socials } from "../data/portfolio";
 import { EASE, GithubIcon, LinkedinIcon, Magnetic, buttonClasses } from "./ui";
 
@@ -152,6 +152,48 @@ function SignalField() {
 
 export function Hero({ ready }: { ready: boolean }) {
   const reduce = useReducedMotion();
+  const wrapRef = useRef<HTMLDivElement>(null);
+  const imgRef = useRef<HTMLImageElement>(null);
+  const [cutout, setCutout] = useState(false);
+
+  /**
+   * Face-region mask geometry, measured live so the cutout tracks the real
+   * portrait and lettering at any viewport size. Sets --mx/--my/--mrx/--mry
+   * (percentages of the wordmark wrapper) used by both mask layers.
+   * Face fractions measured from the 1024x1536 portrait (exact 2:3, no crop).
+   * The portrait sits low so the face lands behind the second line —
+   * line one stays solid, line two turns to outline over the face.
+   */
+  useEffect(() => {
+    const wrap = wrapRef.current;
+    const img = imgRef.current;
+    if (!wrap || !img) return;
+    const update = () => {
+      const wr = wrap.getBoundingClientRect();
+      const ir = img.getBoundingClientRect();
+      if (wr.width === 0 || wr.height === 0 || ir.width === 0) return;
+      const faceX = ir.left + 0.5 * ir.width;
+      const faceY = ir.top + 0.3 * ir.height;
+      const s = wrap.style;
+      s.setProperty("--mx", `${(((faceX - wr.left) / wr.width) * 100).toFixed(2)}%`);
+      s.setProperty("--my", `${(((faceY - wr.top) / wr.height) * 100).toFixed(2)}%`);
+      s.setProperty("--mrx", `${(((0.24 * ir.width) / wr.width) * 100).toFixed(2)}%`);
+      s.setProperty("--mry", `${(((0.21 * ir.height) / wr.height) * 100).toFixed(2)}%`);
+    };
+    update();
+    window.addEventListener("resize", update);
+    if (document.fonts?.ready) document.fonts.ready.then(update).catch(() => {});
+    // Engage the cutout only after the type-reveal settles, so the mask
+    // never fights the entrance animation.
+    const t = setTimeout(() => {
+      update();
+      setCutout(true);
+    }, 1700);
+    return () => {
+      window.removeEventListener("resize", update);
+      clearTimeout(t);
+    };
+  }, [ready]);
 
   return (
     <section
@@ -159,6 +201,25 @@ export function Hero({ ready }: { ready: boolean }) {
       className="relative flex min-h-[100svh] flex-col overflow-hidden bg-ink text-paper"
     >
       <SignalField />
+
+      {/* portrait — background-removed cutout, sitting low so the face lands
+          behind the second line of the wordmark (reference treatment) */}
+      <div
+        aria-hidden="true"
+        className="pointer-events-none absolute left-1/2 top-[56%] z-[5] h-[84%] -translate-x-1/2 -translate-y-1/2 aspect-[2/3] [mask-image:linear-gradient(to_bottom,transparent,black_10%,black_90%,transparent)]"
+      >
+        <img
+          ref={imgRef}
+          src="/portrait.webp"
+          alt=""
+          fetchPriority="high"
+          className="h-full w-full object-cover object-top opacity-90"
+          width={1024}
+          height={1536}
+        />
+        {/* soft ink veil keeps the solid wordmark readable over bright areas */}
+        <div className="absolute inset-0 bg-ink/35" />
+      </div>
 
       {/* faint baseline grid */}
       <div
@@ -182,30 +243,82 @@ export function Hero({ ready }: { ready: boolean }) {
           {profile.role} <span className="text-accent">—</span> {profile.university}
         </motion.p>
 
-        {/* architectural wordmark */}
-        <h1 className="relative mt-8 select-none font-display font-bold uppercase leading-[0.82] tracking-[-0.03em] text-[clamp(3.6rem,16.5vw,15rem)]">
-          <span className="block overflow-hidden">
-            <motion.span
-              className="block text-paper"
-              initial={reduce ? { opacity: 0 } : { opacity: 0, y: "108%" }}
-              animate={ready ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 1, ease: EASE, delay: 0.25 }}
-            >
-              {profile.firstName}
-            </motion.span>
-          </span>
-          <span className="block overflow-hidden">
-            <motion.span
-              className="block text-paper"
-              initial={reduce ? { opacity: 0 } : { opacity: 0, y: "108%" }}
-              animate={ready ? { opacity: 1, y: 0 } : {}}
-              transition={{ duration: 1, ease: EASE, delay: 0.36 }}
-            >
-              {profile.lastName}
-              <span className="text-accent">.</span>
-            </motion.span>
-          </span>
-        </h1>
+        {/* architectural wordmark — condensed display type; solid layer with a
+            face-shaped cutout, plus an outline layer visible only over the
+            face region so the portrait shows through the letterforms */}
+        <div ref={wrapRef} className="relative mt-8">
+          <h1
+            className="select-none font-condensed uppercase leading-[0.85] tracking-[-0.01em] text-[clamp(4rem,17vw,16rem)]"
+            style={
+              cutout
+                ? {
+                    maskImage:
+                      "radial-gradient(ellipse var(--mrx) var(--mry) at var(--mx) var(--my), transparent 50%, black 72%)",
+                    WebkitMaskImage:
+                      "radial-gradient(ellipse var(--mrx) var(--mry) at var(--mx) var(--my), transparent 50%, black 72%)",
+                  }
+                : undefined
+            }
+          >
+            <span className="block overflow-hidden">
+              <motion.span
+                className="block text-paper"
+                initial={reduce ? { opacity: 0 } : { opacity: 0, y: "108%" }}
+                animate={ready ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 1, ease: EASE, delay: 0.25 }}
+              >
+                {profile.firstName}
+              </motion.span>
+            </span>
+            <span className="block overflow-hidden">
+              <motion.span
+                className="block text-paper"
+                initial={reduce ? { opacity: 0 } : { opacity: 0, y: "108%" }}
+                animate={ready ? { opacity: 1, y: 0 } : {}}
+                transition={{ duration: 1, ease: EASE, delay: 0.36 }}
+              >
+                {profile.lastName}
+                <span className="text-accent">.</span>
+              </motion.span>
+            </span>
+          </h1>
+          <div
+            aria-hidden="true"
+            className="pointer-events-none absolute inset-0 select-none"
+            style={{
+              maskImage:
+                "radial-gradient(ellipse var(--mrx) var(--mry) at var(--mx) var(--my), black 50%, transparent 72%)",
+              WebkitMaskImage:
+                "radial-gradient(ellipse var(--mrx) var(--mry) at var(--mx) var(--my), black 50%, transparent 72%)",
+              opacity: cutout ? 1 : 0,
+              transition: "opacity 0.6s ease",
+            }}
+          >
+            <h1 className="select-none font-condensed uppercase leading-[0.85] tracking-[-0.01em] text-[clamp(4rem,17vw,16rem)]">
+              <span className="block overflow-hidden">
+                <motion.span
+                  className="block text-transparent [-webkit-text-stroke:2px_#f4f1ea]"
+                  initial={reduce ? { opacity: 0 } : { opacity: 0, y: "108%" }}
+                  animate={ready ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 1, ease: EASE, delay: 0.25 }}
+                >
+                  {profile.firstName}
+                </motion.span>
+              </span>
+              <span className="block overflow-hidden">
+                <motion.span
+                  className="block text-transparent [-webkit-text-stroke:2px_#f4f1ea]"
+                  initial={reduce ? { opacity: 0 } : { opacity: 0, y: "108%" }}
+                  animate={ready ? { opacity: 1, y: 0 } : {}}
+                  transition={{ duration: 1, ease: EASE, delay: 0.36 }}
+                >
+                  {profile.lastName}
+                  <span className="text-accent [-webkit-text-stroke:0px]">.</span>
+                </motion.span>
+              </span>
+            </h1>
+          </div>
+        </div>
 
         {/* positioning statement */}
         <motion.div
