@@ -42,11 +42,11 @@ function SignalField() {
       canvas.height = h * DPR;
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       pts = [];
-      const gap = 96;
+      const gap = 56;
       for (let x = gap / 2; x < w; x += gap) {
         for (let y = gap / 2; y < h; y += gap) {
-          const jx = (Math.random() - 0.5) * 18;
-          const jy = (Math.random() - 0.5) * 18;
+          const jx = (Math.random() - 0.5) * 26;
+          const jy = (Math.random() - 0.5) * 26;
           pts.push({ x: x + jx, y: y + jy, ox: x + jx, oy: y + jy, vx: 0, vy: 0 });
         }
       }
@@ -65,7 +65,7 @@ function SignalField() {
           const dy = a.y - b.y;
           const d = Math.hypot(dx, dy);
           if (d < R) {
-            const alpha = (1 - d / R) * 0.13;
+            const alpha = (1 - d / R) * 0.28;
             ctx.strokeStyle = `rgba(244,241,234,${alpha.toFixed(3)})`;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -74,11 +74,13 @@ function SignalField() {
           }
         }
       }
-      // nodes — quiet monochrome texture, no accent hotspots
+      // nodes, accent near pointer
       for (const p of pts) {
-        ctx.fillStyle = "rgba(244,241,234,0.32)";
+        const pd = Math.hypot(p.x - pointer.x, p.y - pointer.y);
+        const hot = pd < 170;
+        ctx.fillStyle = hot ? "#ff4d00" : "rgba(244,241,234,0.5)";
         ctx.beginPath();
-        ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, hot ? 2.4 : 1.4, 0, Math.PI * 2);
         ctx.fill();
       }
     };
@@ -88,8 +90,8 @@ function SignalField() {
         const dx = p.x - pointer.x;
         const dy = p.y - pointer.y;
         const d = Math.hypot(dx, dy) || 1;
-        if (d < 140) {
-          const f = ((140 - d) / 140) * 0.5;
+        if (d < 170) {
+          const f = ((170 - d) / 170) * 0.9;
           p.vx += (dx / d) * f;
           p.vy += (dy / d) * f;
         }
