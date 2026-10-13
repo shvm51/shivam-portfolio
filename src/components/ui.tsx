@@ -1,5 +1,5 @@
-import { motion, useReducedMotion } from "framer-motion";
-import { useRef, type ReactNode } from "react";
+import { motion, useInView, useReducedMotion } from "framer-motion";
+import { useEffect, useRef, useState, type ReactNode } from "react";
 
 export const EASE: [number, number, number, number] = [0.22, 1, 0.36, 1];
 
@@ -31,10 +31,11 @@ export function Reveal({
 
 /** Staggered per-line entrance for display typography. Pass pre-split lines.
  *
- * The IntersectionObserver watches the STATIC clip wrapper (never the
- * translated inner line): IO measures the transformed box, so observing the
- * moving element directly never fires and headings stay invisible.
- * The inner line inherits the animation state via variant propagation.
+ * Robustness notes (learned the hard way): the scroll observer watches the
+ * STATIC heading element itself — never a translated inner line — and drives
+ * an explicit `animate` target (object, not variant labels). A fallback timer
+ * guarantees the heading becomes visible even if the observer never fires,
+ * so content can never be stuck invisible.
  */
 export function LineReveal({
   lines,
@@ -48,30 +49,31 @@ export function LineReveal({
   as?: "span" | "h1" | "h2";
 }) {
   const reduce = useReducedMotion();
+  const ref = useRef<HTMLElement | null>(null);
+  const inView = useInView(ref, { once: true, margin: "-10% 0px" });
+  const [forceShow, setForceShow] = useState(false);
+
+  useEffect(() => {
+    if (inView) return;
+    const t = setTimeout(() => setForceShow(true), 5000);
+    return () => clearTimeout(t);
+  }, [inView ]);
+
+  const shown = inView || forceShow;
+
   return (
-    <Tag className={className}>
+    <Tag ref={ref as never} className={className}>
       {lines.map((line, i) => (
-        <motion.span
-          key={i}
-          className="block overflow-hidden"
-          initial="hidden"
-          whileInView="show"
-          viewport={{ once: true, margin: "-10% 0px" }}
-        >
+        <span key={i} className="block overflow-hidden">
           <motion.span
             className={`block ${lineClassName ?? ""}`}
-            variants={{
-              hidden: reduce ? { opacity: 0 } : { opacity: 0, y: "110%" },
-              show: {
-                opacity: 1,
-                y: "0%",
-                transition: { duration: 0.9, delay: i * 0.09, ease: EASE },
-              },
-            }}
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: "110%" }}
+            animate={shown ? { opacity: 1, y: "0%" } : undefined}
+            transition={{ duration: 0.9, delay: i * 0.09, ease: EASE }}
           >
             {line}
           </motion.span>
-        </motion.span>
+        </span>
       ))}
     </Tag>
   );
