@@ -79,8 +79,8 @@ export function Contact() {
 
         <Reveal delay={0.25}>
           <p className="mt-10 font-serif text-lg italic text-paper/45">
-            Email and LinkedIn are on the way — GitHub is the fastest way to
-            reach me for now.
+            The fastest way to reach me is email — or find me on GitHub and
+            LinkedIn.
           </p>
         </Reveal>
       </div>
