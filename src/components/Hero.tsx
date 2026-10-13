@@ -179,7 +179,7 @@ export function Hero({ ready }: { ready: boolean }) {
         {/* full-width typographic wordmark — one unified composition.
             SHIVAM solid warm ivory; AGHERA as a complete outlined unit
             closed by a circular orange dot. */}
-        <h1 className="mt-6 select-none whitespace-nowrap font-condensed uppercase leading-[0.82] tracking-[0.01em] text-[27vw] md:mt-8">
+        <h1 className="mt-6 select-none whitespace-nowrap font-condensed uppercase leading-[0.82] tracking-[0.01em] text-[26vw] md:mt-8">
           <span className="block overflow-hidden pb-[0.03em]">
             <motion.span
               className="block text-paper"
