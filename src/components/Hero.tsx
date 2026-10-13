@@ -160,7 +160,7 @@ export function Hero({ ready }: { ready: boolean }) {
     >
       <SignalField />
 
-      <div className="relative z-10 mx-auto flex w-full flex-1 flex-col justify-center px-6 pb-24 pt-28 md:px-12">
+      <div className="relative z-10 mx-auto flex w-full flex-1 flex-col justify-center px-6 pb-24 pt-24 md:px-12">
         {/* kicker row — descriptor left, folio label right */}
         <motion.div
           initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
@@ -179,7 +179,7 @@ export function Hero({ ready }: { ready: boolean }) {
         {/* full-width typographic wordmark — one unified composition.
             SHIVAM solid warm ivory; AGHERA as a complete outlined unit
             closed by a circular orange dot. */}
-        <h1 className="mt-8 select-none whitespace-nowrap font-condensed uppercase leading-[0.84] tracking-[0.01em] text-[28vw] md:mt-10">
+        <h1 className="mt-6 select-none whitespace-nowrap font-condensed uppercase leading-[0.82] tracking-[0.01em] text-[27vw] md:mt-8">
           <span className="block overflow-hidden pb-[0.03em]">
             <motion.span
               className="block text-paper"
