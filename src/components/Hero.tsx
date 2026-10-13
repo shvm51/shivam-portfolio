@@ -42,11 +42,11 @@ function SignalField() {
       canvas.height = h * DPR;
       ctx.setTransform(DPR, 0, 0, DPR, 0, 0);
       pts = [];
-      const gap = 56;
+      const gap = 96;
       for (let x = gap / 2; x < w; x += gap) {
         for (let y = gap / 2; y < h; y += gap) {
-          const jx = (Math.random() - 0.5) * 26;
-          const jy = (Math.random() - 0.5) * 26;
+          const jx = (Math.random() - 0.5) * 18;
+          const jy = (Math.random() - 0.5) * 18;
           pts.push({ x: x + jx, y: y + jy, ox: x + jx, oy: y + jy, vx: 0, vy: 0 });
         }
       }
@@ -65,7 +65,7 @@ function SignalField() {
           const dy = a.y - b.y;
           const d = Math.hypot(dx, dy);
           if (d < R) {
-            const alpha = (1 - d / R) * 0.28;
+            const alpha = (1 - d / R) * 0.13;
             ctx.strokeStyle = `rgba(244,241,234,${alpha.toFixed(3)})`;
             ctx.beginPath();
             ctx.moveTo(a.x, a.y);
@@ -74,13 +74,11 @@ function SignalField() {
           }
         }
       }
-      // nodes, accent near pointer
+      // nodes — quiet monochrome texture, no accent hotspots
       for (const p of pts) {
-        const pd = Math.hypot(p.x - pointer.x, p.y - pointer.y);
-        const hot = pd < 170;
-        ctx.fillStyle = hot ? "#ff4d00" : "rgba(244,241,234,0.5)";
+        ctx.fillStyle = "rgba(244,241,234,0.32)";
         ctx.beginPath();
-        ctx.arc(p.x, p.y, hot ? 2.4 : 1.4, 0, Math.PI * 2);
+        ctx.arc(p.x, p.y, 1.3, 0, Math.PI * 2);
         ctx.fill();
       }
     };
@@ -90,8 +88,8 @@ function SignalField() {
         const dx = p.x - pointer.x;
         const dy = p.y - pointer.y;
         const d = Math.hypot(dx, dy) || 1;
-        if (d < 170) {
-          const f = ((170 - d) / 170) * 0.9;
+        if (d < 140) {
+          const f = ((140 - d) / 140) * 0.5;
           p.vx += (dx / d) * f;
           p.vy += (dy / d) * f;
         }
@@ -172,66 +170,87 @@ export function Hero({ ready }: { ready: boolean }) {
       />
 
       <div className="relative z-10 mx-auto flex w-full max-w-[1440px] flex-1 flex-col justify-center px-6 pb-24 pt-28 md:px-12">
-        {/* kicker */}
-        <motion.p
+        {/* kicker row — descriptor left, folio label right */}
+        <motion.div
           initial={reduce ? { opacity: 0 } : { opacity: 0, y: 16 }}
           animate={ready ? { opacity: 1, y: 0 } : {}}
           transition={{ duration: 0.7, ease: EASE, delay: 0.15 }}
-          className="font-mono text-xs uppercase tracking-[0.35em] text-paper/60"
+          className="flex items-baseline justify-between gap-6"
         >
-          {profile.role} <span className="text-accent">—</span> {profile.university}
-        </motion.p>
+          <p className="font-mono text-xs uppercase tracking-[0.35em] text-paper/60">
+            {profile.role} <span className="text-accent">—</span> {profile.university}
+          </p>
+          <p className="hidden font-mono text-xs uppercase tracking-[0.35em] text-paper/35 sm:block">
+            Portfolio · 2026
+          </p>
+        </motion.div>
 
-        {/* typographic wordmark — the hero's signature. Massive condensed
-            display type; line two mixes solid and outlined letterforms as a
-            deliberate graphic treatment, closed by the orange accent period. */}
-        <div className="relative mt-6 md:mt-10">
-          {/* ghost echo — a hairline outline of the name drifting behind the
-              solid type for typographic depth (no photograph needed) */}
-          <div
-            aria-hidden="true"
-            className="pointer-events-none absolute -top-[0.42em] left-[0.08em] select-none font-condensed uppercase leading-none text-[clamp(4.5rem,21vw,20rem)] text-transparent [-webkit-text-stroke:1px_rgba(244,241,234,0.10)]"
+        {/* full-width typographic wordmark — one unified composition.
+            SHIVAM solid warm ivory; AGHERA as a complete outlined unit
+            closed by a circular orange dot. */}
+        <h1 className="mt-8 select-none whitespace-nowrap font-condensed uppercase leading-[0.84] tracking-[0.01em] text-[clamp(3.5rem,22vw,22rem)] md:mt-10">
+          <span className="block overflow-hidden pb-[0.03em]">
+            <motion.span
+              className="block text-paper"
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: "108%" }}
+              animate={ready ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 1, ease: EASE, delay: 0.25 }}
+            >
+              {profile.firstName}
+            </motion.span>
+          </span>
+          <span className="block overflow-hidden pb-[0.05em]">
+            <motion.span
+              className="block"
+              initial={reduce ? { opacity: 0 } : { opacity: 0, y: "108%" }}
+              animate={ready ? { opacity: 1, y: 0 } : {}}
+              transition={{ duration: 1, ease: EASE, delay: 0.36 }}
+            >
+              <span className="text-transparent [-webkit-text-stroke:2px_#f4f1ea]">
+                {profile.lastName}
+              </span>
+              <span
+                aria-hidden="true"
+                className="ml-[0.12em] inline-block h-[0.15em] w-[0.15em] rounded-full bg-accent align-baseline"
+              />
+            </motion.span>
+          </span>
+        </h1>
+
+        {/* hairline rule — defines the secondary content area */}
+        <motion.div
+          initial={{ opacity: 0 }}
+          animate={ready ? { opacity: 1 } : {}}
+          transition={{ duration: 0.8, delay: 0.55 }}
+          aria-hidden="true"
+          className="mt-10 border-t border-paper/15 md:mt-14"
+        />
+
+        {/* secondary band — introduction left, actions right */}
+        <div className="mt-8 flex flex-col gap-10 md:mt-10 md:flex-row md:items-start md:justify-between">
+          {/* positioning statement */}
+          <motion.div
+            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 20 }}
+            animate={ready ? { opacity: 1, y: 0 } : {}}
+            transition={{ duration: 0.8, ease: EASE, delay: 0.6 }}
+            className="max-w-xl"
           >
-            SHIVAM
-          </div>
-          <h1 className="relative select-none font-condensed uppercase leading-[0.85] tracking-[-0.01em] text-[clamp(4.5rem,21vw,20rem)]">
-            <span className="block overflow-hidden pb-[0.04em]">
-              <motion.span
-                className="block text-paper"
-                initial={reduce ? { opacity: 0 } : { opacity: 0, y: "108%" }}
-                animate={ready ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 1, ease: EASE, delay: 0.25 }}
-              >
-                {profile.firstName}
-              </motion.span>
-            </span>
-            <span className="block overflow-hidden pb-[0.06em]">
-              <motion.span
-                className="block"
-                initial={reduce ? { opacity: 0 } : { opacity: 0, y: "108%" }}
-                animate={ready ? { opacity: 1, y: 0 } : {}}
-                transition={{ duration: 1, ease: EASE, delay: 0.36 }}
-              >
-                <span className="text-paper">AGH</span>
-                <span className="text-transparent [-webkit-text-stroke:2px_#f4f1ea]">
-                  ERA
-                </span>
-                <span className="text-accent">.</span>
-              </motion.span>
-            </span>
-          </h1>
-        </div>
+            <p className="font-serif text-2xl italic text-paper/90 md:text-[1.7rem]">
+              “{profile.tagline}”
+            </p>
+            <p className="mt-4 text-[1.0625rem] leading-relaxed text-paper/60">
+              {profile.intro}
+            </p>
+          </motion.div>
 
-        {/* bottom band — asymmetric editorial: CTAs + socials left,
-            positioning statement right, visually secondary to the name */}
-        <div className="mt-10 flex flex-col gap-10 md:mt-14 md:flex-row md:items-end md:justify-between">
+          {/* actions */}
           <motion.div
             initial={reduce ? { opacity: 0 } : { opacity: 0, y: 20 }}
             animate={ready ? { opacity: 1, y: 0 } : {}}
             transition={{ duration: 0.8, ease: EASE, delay: 0.75 }}
-            className="flex flex-col gap-8"
+            className="flex flex-col gap-8 md:items-end"
           >
-            <div className="flex flex-wrap items-center gap-4">
+            <div className="flex flex-wrap items-center gap-4 md:justify-end">
               <Magnetic>
                 <a href="#work" className={buttonClasses(true)}>
                   Explore my work <ArrowDown size={16} />
@@ -281,21 +300,6 @@ export function Hero({ ready }: { ready: boolean }) {
                 </span>
               )}
             </div>
-          </motion.div>
-
-          {/* positioning statement */}
-          <motion.div
-            initial={reduce ? { opacity: 0 } : { opacity: 0, y: 20 }}
-            animate={ready ? { opacity: 1, y: 0 } : {}}
-            transition={{ duration: 0.8, ease: EASE, delay: 0.6 }}
-            className="max-w-md md:pb-1 md:text-right"
-          >
-            <p className="font-serif text-2xl italic text-paper/90 md:text-[1.7rem]">
-              “{profile.tagline}”
-            </p>
-            <p className="mt-4 text-[1.0625rem] leading-relaxed text-paper/60">
-              {profile.intro}
-            </p>
           </motion.div>
         </div>
       </div>
